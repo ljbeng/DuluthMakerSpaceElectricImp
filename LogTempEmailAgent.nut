@@ -50,8 +50,8 @@ function mailgun(tto, subject, message)
   local from = "noreply@noreply.com";
   local to   = tto;
 
-  local apikey = "key-1hzdbuh1fil9n52xucvrlunqj3g7hbv5";
-  local domain = "sandbox50529.mailgun.org";
+  local apikey = "key-882eb4c5dae7c5973bb2389761e7105d";
+  local domain = "sandbox945dd76169134648aac5ff6a6642c9aa.mailgun.org";
 
   local request = http.post("https://api:" + apikey + "@api.mailgun.net/v2/" + domain + "/messages", {"Content-Type": "application/x-www-form-urlencoded"}, "from=" + from + "&to=" + to + "&subject=" + subject + "&text=" + message);
 
