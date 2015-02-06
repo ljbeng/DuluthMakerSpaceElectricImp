@@ -41,7 +41,7 @@ device.on("new_readings" function(body) {
     local v = split(body,",\n");
     local temp = v[1].tofloat();
     if (temp > 90)
-        mailgun("attcellnumberhere@txt.att.net","Hot","It's hot in here.");
+        mailgun("attcellnumberhere@txt.att.net","Hot","It's hot in here." + temp.tostring());
  
 });
 
