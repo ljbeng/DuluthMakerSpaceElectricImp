@@ -7,12 +7,12 @@ const API_KEY = "bYAZvdwjXQaQm3PsuK98tuqolpUBNTk31MQI3a1N1YUTfmdF";
 //MakerSpace2
 //const FEED_ID = "1337300021";
 //const API_KEY = "fHTtcQOlg8Fd2ln2CKieTtvIiqDniRXG8XrlH5nVdqBI4XNh";
-//https://xively.com/feeds/
+//https://xively.com/feeds/1337300021
 
 //MakerSpace3
 //const FEED_ID = "478746511";
 //const API_KEY = "2mAVsmscPV7jtXmjwo4a8Apt5txyQEwE7mzdIfoBFukq8oyT";
-//https://xively.com/feeds/1337300021
+//https://xively.com/feeds/478746511
 
 //MakerSpace4
 //const FEED_ID = "1891661655";
@@ -22,12 +22,12 @@ const API_KEY = "bYAZvdwjXQaQm3PsuK98tuqolpUBNTk31MQI3a1N1YUTfmdF";
 //MakerSpace5
 //const FEED_ID = "952604001";
 //const API_KEY = "BuHNRzFzcZkMoPU9yqeTkGIIGi5dFFqqE8OBvoFDup3YgIYs";
-//https://xively.com/feeds/
+//https://xively.com/feeds/952604001
 
 //MakerSpace6
 //const FEED_ID = "1349689587";
 //const API_KEY = "R2n0rfrclGnO5Lqn1fVONFSeTa7VczLgtgy0oNIfmPSsCK1n";
-//https://xively.com/feeds/
+//https://xively.com/feeds/1349689587
 
 
 // When Device sends new readings, Run this!
