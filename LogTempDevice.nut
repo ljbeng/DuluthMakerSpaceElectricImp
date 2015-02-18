@@ -1,6 +1,12 @@
+
+//example schematic found here. 
+//https://plot.ly/electric-imp/tmp36-temperature-tutorial/
+//There is a mistake on the schematic
+//remind me to point that out (but you will probably find it first.)
+
 // initialize pins
 local led = hardware.pin1;
-local tmp36 = hardware.pin2;
+local tmp36 = hardware.pin8;
 tmp36.configure(ANALOG_IN);
 led.configure(DIGITAL_OUT);
 
