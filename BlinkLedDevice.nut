@@ -1,3 +1,7 @@
+//browser IDE tutorial
+//http://electricimp.com/docs/gettingstarted/ide/
+//
+
 // create a global variabled called led and assign pin9 to it
 led <- hardware.pin9;
  
