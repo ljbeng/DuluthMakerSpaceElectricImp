@@ -1,0 +1,27 @@
+// initialize pins
+local tmp36 = hardware.pin1;
+tmp36.configure(ANALOG_IN);
+
+
+// function to send sensor data to be plotted
+function sendDataToAgent() {
+    
+    local supplyVoltage = hardware.voltage();
+    local voltage = supplyVoltage * tmp36.read() / 65535.0;
+    local T = ((voltage - 0.5) * 100)* 1.8 + 32 ;//convert to F
+    
+    local light = hardware.lightlevel().tofloat();
+    light = (light * 100 / 65535);//% of light
+    
+    local data = {
+        temp = T,
+        lux = light
+    }
+    agent.send("sendDataToAgent", data);
+    // How often to make http request (seconds)
+    imp.wakeup(20, sendDataToAgent);
+}
+
+
+// Initialize Loop
+sendDataToAgent();
