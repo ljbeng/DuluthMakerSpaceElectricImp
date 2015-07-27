@@ -1,3 +1,6 @@
+    if (temp > 90)
+        mailgun("attcellnumberhere@txt.att.net","Hot","It's hot in here." + temp.tostring());
+
 function mailgun(tto, subject, message)
 {
   local from = "noreply@noreply.com";
