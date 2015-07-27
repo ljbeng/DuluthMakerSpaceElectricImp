@@ -1,3 +1,4 @@
+
 const PLOTLY_USER       = "ljbeng";
 const PLOTLY_KEY        = "wqv7f2vhm2";
 // Name your plot
@@ -59,6 +60,6 @@ function updatePlotly(temp, lux) {
 }
 
 // When we get data from the device, format it and send it to Plotly
-device.on("data", function(data) {
+device.on("sendDataToAgent", function(data) {
     updatePlotly(data.temp, data.lux);
 });
