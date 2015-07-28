@@ -1,0 +1,237 @@
+/*
+  Software serial multple serial test
+ 
+ Receives from the hardware serial, sends to software serial.
+ Receives from software serial, sends to hardware serial.
+ 
+ The circuit: 
+ * RX is digital pin 10 (connect to TX of other device)
+ * TX is digital pin 11 (connect to RX of other device)
+ 
+ Note:
+ Not all pins on the Mega and Mega 2560 support change interrupts, 
+ so only the following can be used for RX: 
+ 10, 11, 12, 13, 50, 51, 52, 53, 62, 63, 64, 65, 66, 67, 68, 69
+ 
+ Not all pins on the Leonardo support change interrupts, 
+ so only the following can be used for RX: 
+ 8, 9, 10, 11, 14 (MISO), 15 (SCK), 16 (MOSI).
+ 
+ created back in the mists of time
+ modified 25 May 2012
+ by Tom Igoe
+ based on Mikal Hart's example
+ 
+ This example code is in the public domain.
+ 
+ */
+#include <NeoPixel.h>
+#include <SoftwareSerial.h>
+#include <Servo.h> 
+
+SoftwareSerial mySerial(99, 6); // RX, TX
+int soundSensor = A0;
+int distanceSensor = A1;
+int voiceValue;
+Servo TobyHead;
+Servo TobyRightArm;
+Servo TobyLeftArm;
+int tobydo;
+int distance = 0;
+
+#define PIN 2
+NeoPixel strip = NeoPixel(5, PIN, NEO_GRB + NEO_KHZ800);
+NeoPixel eyes = NeoPixel(2, 8, NEO_GRB + NEO_KHZ800);
+void setup()  
+{
+  // Open serial communications and wait for port to open:
+  Serial.begin(57600);
+    
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for Leonardo only
+  }
+  strip.begin();
+  strip.show(); // Initialize all pixels to 'off'
+  strip.setBrightness(50);  
+  eyes.begin();
+  eyes.setBrightness(40);
+  eyes.setPixelColor(0, 0xff0000);
+  eyes.setPixelColor(1, 0xff0000);
+  eyes.show();
+  TobyHead.attach(10);
+  TobyRightArm.attach(9);
+  TobyLeftArm.attach(11);
+  TobyHead.write(90);
+  TobyRightArm.write(30);
+  TobyLeftArm.write(160);
+
+ delay(1000);  
+  // set the data rate for the SoftwareSerial port
+  mySerial.begin(9600);
+  mySerial.write(1);
+  mySerial.write('@');
+  delay(500);  
+  mySerial.write(1);
+  mySerial.write('7');
+  mySerial.print('O');
+  delay(100);
+  //mySerial.print("Hello, my name is tow be the not walking talking robot.");
+  //mySerial.write(0xd);
+  //delay(2000);
+  tobydo = 0;
+  rainbow(20);
+  /*
+  delay(1000);
+  mySerial.write(1);
+  mySerial.print('J');
+  mySerial.write((byte)0); 
+  mySerial.write(255);
+  mySerial.write(86);
+  mySerial.write((byte)0);
+  
+  mySerial.write(24); 
+  mySerial.write(43);
+  mySerial.write((byte)0);
+  mySerial.write((byte)0);
+  
+  mySerial.write(24);
+  mySerial.write(76);
+  mySerial.write((byte)0); 
+  mySerial.write((byte)0);
+  
+  mySerial.write((byte)0);
+  mySerial.write((byte)0);
+  mySerial.write(1); 
+  mySerial.write(1);  
+  
+  delay(2000);
+  mySerial.write((byte)0);
+  mySerial.write((byte)0);
+  mySerial.write((byte)0);
+  mySerial.write((byte)0);
+  */
+}
+
+void loop() // run over and over
+{
+  int h,didtooclose;
+  delay(50);
+  //mySerial.println("Hello, my name is tow bee.");
+  voiceValue = analogRead(soundSensor);
+  distance = analogRead(distanceSensor);
+  int eyedim = map(distance,0,700,5,100);
+  eyes.setBrightness(eyedim);
+  eyes.setPixelColor(0, 0xff0000);
+  eyes.setPixelColor(1, 0xff0000);
+  
+  if (distance < 100) didtooclose = 0;
+  if (distance > 300 && didtooclose == 0){
+        //mySerial.print("You are too close to me.");
+        //mySerial.write(0xd);
+        //TobyRightArm.write(150);
+        //TobyLeftArm.write(50);
+        //delay(2500); 
+        //TobyRightArm.write(30);
+        //TobyLeftArm.write(160);
+        //didtooclose = 1; 
+  }//
+  Serial.println(voiceValue);
+  if (voiceValue > 100){
+     switch(tobydo){
+       case 0:
+        delay(700);
+        mySerial.print("May I help you?");
+        mySerial.write(0xd);
+        strip.setBrightness(50); 
+        rainbow(10);
+        delay(500);
+        tobydo++;
+        break;
+       case 1:
+        delay(700);
+        mySerial.print("I can raise my right arm.");
+        mySerial.write(0xd);
+        delay(1500);
+        TobyRightArm.write(150);
+        tobydo++;
+        strip.setBrightness(50); 
+        strip.setPixelColor(0, 0xff0000);
+        strip.setPixelColor(1, 0xff0000);
+        strip.setPixelColor(2, 0xff0000);
+        strip.setPixelColor(3, 0xff0000);
+        strip.setPixelColor(4, 0xff0000);
+        
+        strip.show();
+        delay(2000);
+        break;
+       case 2:
+        delay(700);
+        mySerial.println("I can raise my left arm.");
+        delay(1500);
+        TobyLeftArm.write(50);
+        tobydo++;
+        delay(2000);
+        break;     
+       case 3:
+        delay(700);
+        mySerial.println("Now watch this.");
+        delay(700);
+        for (h = 50; h < 200; h+=5){
+          strip.setBrightness(h);  
+          strip.setPixelColor(0, 0xff0000);
+          strip.setPixelColor(1, 0xff0000);
+          strip.setPixelColor(2, 0xff0000);
+          strip.setPixelColor(3, 0xff0000);
+          strip.setPixelColor(4, 0xff0000);
+          strip.show();
+          delay(50);
+        }
+        TobyRightArm.write(30);
+        TobyLeftArm.write(160);
+        TobyHead.write(45);
+        delay(1000);
+        TobyHead.write(135);
+        delay(1000);
+        TobyHead.write(90);
+        tobydo = 0;
+        
+        break;
+     }
+  }
+}
+
+void rainbow(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256; j++) {
+    for(i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel((i+j) & 255));
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
+void rainbowCycle(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+    for(i=0; i< strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
+uint32_t Wheel(byte WheelPos) {
+  if(WheelPos < 85) {
+   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  } else if(WheelPos < 170) {
+   WheelPos -= 85;
+   return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  } else {
+   WheelPos -= 170;
+   return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+}
